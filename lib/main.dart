@@ -1,97 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(LambambaApp());
 
-class MyApp extends StatelessWidget {
+class LambambaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
   }
 }
 
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+class HomeScreen extends StatelessWidget {
+  void showMoMo(BuildContext context) {
+    showDialog(context: context, builder: (c) => AlertDialog(
       backgroundColor: Color(0xFF0A1931),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 120, height: 120,
-              decoration: BoxDecoration(color: Color(0xFFD4AF37), shape: BoxShape.circle),
-              child: Center(child: Text("LB", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.black))),
-            ),
-            SizedBox(height: 30),
-            Text("LAMBAMBA CAPITAL", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color(0xFFD4AF37), letterSpacing: 1.2)),
-            SizedBox(height: 8),
-            Text("Your Investment, Our Priority", style: TextStyle(fontSize: 16, color: Colors.white70)),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => InvestPage()));
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFD4AF37), minimumSize: Size(250, 55), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-              child: Text("INVEST NOW", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-            SizedBox(height: 15),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PortfolioPage()));
-              },
-              style: OutlinedButton.styleFrom(minimumSize: Size(250, 55), side: BorderSide(color: Color(0xFFD4AF37)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-              child: Text("MY PORTFOLIO", style: TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold, fontSize: 16)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class InvestPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF0A1931),
-      appBar: AppBar(title: Text("Invest Now"), backgroundColor: Color(0xFFD4AF37), foregroundColor: Colors.black),
-      body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(Icons.trending_up, size: 80, color: Color(0xFFD4AF37)),
-        SizedBox(height: 20),
-        Text("Start Investing Today", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-        SizedBox(height: 10),
-        Text("GHS 500 minimum - 15% monthly ROI", style: TextStyle(color: Colors.white70)),
-        SizedBox(height: 30),
-        ElevatedButton(onPressed: () { ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Investment Feature Coming Soon!'))); }, style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFD4AF37)), child: Text("Deposit via MoMo", style: TextStyle(color: Colors.black)))
-      ])),
-    );
-  }
-}
-
-class PortfolioPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF0A1931),
-      appBar: AppBar(title: Text("My Portfolio"), backgroundColor: Color(0xFFD4AF37), foregroundColor: Colors.black),
-      body: Padding(padding: EdgeInsets.all(20), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(padding: EdgeInsets.all(20), decoration: BoxDecoration(color: Color(0xFFD4AF37), borderRadius: BorderRadius.circular(15)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("Total Portfolio Value", style: TextStyle(color: Colors.black54)),
-          SizedBox(height: 5),
-          Text("GHS 125,430.00", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black)),
-          SizedBox(height: 10),
-          Text("+ GHS 12,430 profit this month (11%)", style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600))
+      title: Text('Deposit via MoMo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      content: Container(padding: EdgeInsets.all(16), decoration: BoxDecoration(color: Color(0xFFFFC107), borderRadius: BorderRadius.circular(12)),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text('MTN MoMo: 0537613225', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20, color: Colors.black)),
+          Divider(),
+          Text('ROMANUS DINYELU UDEMEZUE', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
         ])),
-        SizedBox(height: 30),
-        Text("Your Investments", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+      actions: [
+        TextButton(onPressed: ()=> Navigator.pop(c), child: Text('Cancel')),
+        ElevatedButton(
+          onPressed: () async {
+            final Uri url = Uri.parse('https://api.whatsapp.com/send?phone=233537613225&text=Hello%20I%20paid%20to%200537613225');
+            await launchUrl(url, mode: LaunchMode.externalApplication);
+          },
+          child: Text('I Have Paid - Open WhatsApp'),
+        ),
+      ],
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(backgroundColor: Colors.black,
+      body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        CircleAvatar(radius: 50, backgroundColor: Color(0xFFFDAF37), child: Text('LC', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black))),
         SizedBox(height: 15),
-        ListTile(leading: Icon(Icons.account_balance_wallet, color: Color(0xFFD4AF37)), title: Text("Gold Vault Plan", style: TextStyle(color: Colors.white)), subtitle: Text("GHS 85,000 - Active", style: TextStyle(color: Colors.white70)), trailing: Text("+15%", style: TextStyle(color: Colors.green))),
-        Divider(color: Colors.white24),
-        ListTile(leading: Icon(Icons.show_chart, color: Color(0xFFD4AF37)), title: Text("Agri Growth Fund", style: TextStyle(color: Colors.white)), subtitle: Text("GHS 40,430 - Active", style: TextStyle(color: Colors.white70)), trailing: Text("+8%", style: TextStyle(color: Colors.green))),
+        Text('LAMBAMBA CAPITAL', style: TextStyle(color: Color(0xFFFDAF37), fontSize: 22, fontWeight: FontWeight.bold)),
+        SizedBox(height: 40),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 40),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFFDAF37), minimumSize: Size(double.infinity, 50)),
+            onPressed: ()=> showMoMo(context),
+            child: Text('INVEST NOW', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          )),
       ])),
     );
   }
